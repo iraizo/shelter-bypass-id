@@ -1,5 +1,5 @@
 /** @type {import("@uwu/shelter-defs")} */
-{
+export default {
   onLoad: async () => {
     const {
       util: { log },
@@ -12,7 +12,7 @@
     log("ID Verification bypass loaded :3c");
 
     patcher.after("getCurrentUser", UserStore.__proto__, (_, v) => {
-      v.ageVerificationStatus = 3;
+      if (v) v.ageVerificationStatus = 3;
     });
 
     patcher.instead("setRequestHeader", XMLHttpRequest.prototype, function(args, orig) {
@@ -22,8 +22,4 @@
       return orig.apply(this, args);
     });
   },
-
-  onUnload: () => {
-    shelter.util.log("ID Verification bypass unloaded");
-  }
 }
